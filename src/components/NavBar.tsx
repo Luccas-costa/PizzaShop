@@ -1,7 +1,13 @@
 "use client";
 import React, { useState } from "react";
 
-import { HouseLine, Moon, Sun } from "@phosphor-icons/react/dist/ssr";
+import {
+  CaretDown,
+  CaretUp,
+  HouseLine,
+  Moon,
+  Sun,
+} from "@phosphor-icons/react/dist/ssr";
 import { UtensilsCrossed } from "lucide-react";
 
 import Pizza from "../components/icon/Pizza";
@@ -12,6 +18,9 @@ interface NavBarProps {
 
 export default function NavBar({ chosen }: NavBarProps) {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [EstablishmentModal, setEstablishmentModal] = useState(false);
+
+  const Establishment = "Diego's Pizza Shop";
   return (
     <div className='flex justify-between items-center h-[50px] pt-5 pl-5'>
       <div className='flex space-x-3'>
@@ -21,32 +30,42 @@ export default function NavBar({ chosen }: NavBarProps) {
         </div>
         <div
           className={`pl-2 flex items-center space-x-2  ${
-            chosen ? "text-zinc-100" : "text-zinc-200/70"
+            chosen ? "text-white" : "text-white/70"
           } font-semibold`}
         >
-          <HouseLine size={28} color={chosen ? "#f4f4f5" : "#A5A5A5"} />
+          <HouseLine size={28} color={chosen ? "white" : "#A5A5A5"} />
           <span>Início</span>
         </div>
         <div
           className={`pl-2 flex items-center space-x-2 ${
-            chosen ? "text-zinc-200/70" : "text-zinc-100"
+            chosen ? "text-white/70" : "text-white"
           } font-semibold`}
         >
-          <UtensilsCrossed size={24} color={chosen ? "#A5A5A5" : "#f4f4f5"} />
+          <UtensilsCrossed size={24} color={chosen ? "#A5A5A5" : "white"} />
           <span>Pedidos</span>
         </div>
       </div>
 
-      <div className='flex space-x-2'>
+      <div className='flex space-x-3 mr-5'>
         <div
-          className='size-[34px] border border-zinc-200/50 rounded flex items-center justify-center cursor-pointer'
+          className='size-[40px] border border-white/70 rounded-lg flex items-center justify-center cursor-pointer'
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
-          {theme === "dark" && <Moon size={20} color='white' />}
-          {theme === "light" && <Sun size={20} color='white' />}
+          {theme === "dark" && <Moon size={24} color='white' />}
+          {theme === "light" && <Sun size={24} color='white' />}
         </div>
-        <div>
-          <input type='text' />
+        <div
+          className='max-w-[250px] h-[40px] border border-white/70 rounded flex items-center justify-start text-white cursor-pointer space-x-1 px-4 transition-all duration-200'
+          onClick={() => setEstablishmentModal(!EstablishmentModal)}
+        >
+          <span>{Establishment}</span>
+          <div
+            className={`${
+              EstablishmentModal ? "" : "rotate-180"
+            } transition-all duration-200`}
+          >
+            <CaretDown size={18} color='white' />
+          </div>
         </div>
       </div>
     </div>
