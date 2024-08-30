@@ -61,7 +61,7 @@ export default function NavBar({ chosen }: NavBarProps) {
           <span>{Establishment}</span>
           <div
             className={`${
-              EstablishmentModal ? "" : "rotate-180"
+              EstablishmentModal ? "rotate-180" : ""
             } transition-all duration-200`}
           >
             <CaretDown size={18} color='white' />
