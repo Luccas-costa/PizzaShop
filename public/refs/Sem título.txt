@@ -1,0 +1,27 @@
+pagina de login --
+	-print na tela inicial
+	-ao acessar email magic link
+
+funcionalidades --
+
+dashboard 
+	-itens
+		-print na tela inicial 
+		-funcao de alterar nome
+	-função de filtragem 
+	-funcao de pesquisar por:
+		-nome 
+		-id
+		-status
+			- pendente
+			- em preparo
+			- em entrega
+			- cancelado
+			- aprovado
+			
+			
+site grafico 
+
+https://recharts.org/en-US/
+
+e shadc
