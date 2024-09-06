@@ -1,6 +1,8 @@
-import React from "react";
+'use client';
+import React, { useState } from "react";
 
 import { MagnifyingGlass, ArrowRight, X } from "@phosphor-icons/react";
+import DashboardButton from "./DashboardButton";
 
 interface DashboardMainProps {
   id: string;
@@ -19,6 +21,23 @@ export default function DashboardMain({
   price,
   last,
 }: DashboardMainProps) {
+  const [Status, setStatus] = useState(status);
+
+  const handleStatus = (status: string) => {
+    if (status === "Null") {
+      setStatus("Null");
+    } else if (status === "Pendente") {
+      setStatus("Enviando");
+    } else if (status === "Enviando") {
+      setStatus("Enviado");
+    } else if (status === "Enviado") {
+      setStatus("Enviado");
+    } else if (status === "Erro") {
+      setStatus("Erro");
+    } else {
+      setStatus("Erro");
+    }
+  }
   return (
     <div
       className={`h-[60px] ${
@@ -36,42 +55,21 @@ export default function DashboardMain({
       <div className='flex space-x-2 items-center min-w-[150px]'>
         <div
           className={`size-[8px] rounded-full ${
-            status === "Enviado" && "bg-green-500"
-          } ${status === "Erro" && "bg-red-500"} ${
-            status === "Pendente" && "bg-blue-300"
-          } ${status === "Enviando" && "bg-yellow-500"} ${
-            status === "Null" && "bg-zinc-200"
+            Status === "Enviado" && "bg-green-500"
+          } ${Status === "Erro" && "bg-red-500"} ${
+            Status === "Pendente" && "bg-blue-300"
+          } ${Status === "Enviando" && "bg-yellow-500"} ${
+            Status === "Null" && "bg-zinc-200"
           }`}
         />
-        <div className='text-zinc-400 text-sm'>{status}</div>
+        <div className='text-zinc-400 text-sm'>{Status}</div>
       </div>
 
       <div className='text-white min-w-[718px]'>{name}</div>
 
       <div className='text-white min-w-[120px]'>{price}</div>
 
-      <div
-        className={`w-[120px] h-[35px] border  rounded-lg flex items-center justify-center pr-2 space-x-2 cursor-pointer ${
-          status === "Erro" ? "border-red-500/70" : "border-zinc-500"
-        }`}
-      >
-        <div>
-          <ArrowRight
-            size={16}
-            weight='bold'
-            color={status === "Erro" ? "#AF3738" : "white"}
-          />
-        </div>
-        <div
-          className={`${status === "Erro" ? "text-red-500/70" : "text-white"}`}
-        >
-          {status === "Null" && "Nao existe"}
-          {status === "Erro" && "Deu erro"}
-          {status === "Enviado" && "Enviado"}
-          {status === "Enviando" && "Enviando"}
-          {status === "Pendente" && "Enviar"}
-        </div>
-      </div>
+      <DashboardButton status={Status} handleStatusProps={handleStatus} />
 
       <div className='flex items-center space-x-2 ml-10 p-2 rounded-lg cursor-pointer hover:border hover:border-zinc-500/50'>
         <X size={12} weight='bold' color='white' />

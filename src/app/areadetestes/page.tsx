@@ -50,7 +50,6 @@ export default function AreaDeTestes() {
                     className={`w-[120px] h-[35px] border  rounded-lg flex items-center justify-center pr-2 space-x-2 cursor-pointer ${
                     status === "Erro" ? "border-red-500/70" : "border-zinc-500"
                     }`}
-                    onClick={() => handleStatus(numberStatus + 1)}
                 >
                     <div className={`${IsAnimation ? "transition-all duration-200 translate-x-[100px] opacity-0" : ""}`}>
                         <ArrowRight
