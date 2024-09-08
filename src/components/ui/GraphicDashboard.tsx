@@ -4,7 +4,7 @@ import { LineChartComponent } from "./LineChart";
 
 export default function GraphicDashboard() {
   return (
-    <div className='w-[62%] h-[400px] border border-zinc-200/60 rounded-lg p-4 flex flex-col'>
+    <div className='w-[62%] h-[600px] border border-zinc-200/60 rounded-lg p-4 flex flex-col'>
       <div className='flex justify-between'>
         <div>
           <div className='text-white text-lg'>Receita no período</div>
@@ -19,7 +19,7 @@ export default function GraphicDashboard() {
           </div>
         </div>
       </div>
-      <div className='flex-grow'>{/* <LineChartComponent /> */}</div>
+      <LineChartComponent />
     </div>
   );
 }

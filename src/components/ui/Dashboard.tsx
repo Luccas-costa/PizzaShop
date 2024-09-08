@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { userData } from "@/data/UserData";
+import { SearchPedidosBD } from "@/database/pedidosSearch"; // Ajuste o caminho conforme necessário
+
 import DashboardMain from "./DashboardMain";
 import DashboardTitle from "./DashboardTitle";
 import DashboardPagination from "./DashboardPagination";
+
+import { formatDate } from "@/lib/FomatDate"; // Importa a função de formatação de data
+import { SearchPedidos } from "@/types/SearchPedidos";
 
 interface DashboardProps {
   filters: {
@@ -14,28 +18,28 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ filters }: DashboardProps) {
+  const [filteredData, setFilteredData] = useState<SearchPedidos[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const itemsPerPage = 11;
-  const [filteredData, setFilteredData] = useState(userData);
 
+  // Fetch data from the server when the component mounts or filters change
   useEffect(() => {
-    // Aplica os filtros
-    const newFilteredData = userData.filter((user) => {
-      const matchesId = filters.id
-        ? user.id.toString().includes(filters.id)
-        : true;
-      const matchesName = filters.name
-        ? user.name.toLowerCase().includes(filters.name.toLowerCase())
-        : true;
-      const matchesStatus = filters.status
-        ? user.status === filters.status
-        : true;
-      return matchesId && matchesName && matchesStatus;
-    });
+    const fetchData = async () => {
+      try {
+        const data = await SearchPedidosBD({
+          identificador: filters.id,
+          status: filters.status,
+        });
+        setFilteredData(data);
+        setCurrentPage(1); // Reinicia a página para 1 quando os filtros mudam
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
 
-    setFilteredData(newFilteredData);
-    setCurrentPage(1); // Reinicia a página para 1 quando os filtros mudam
-  }, [filters]);
+    fetchData();
+  }, [filters, refresh]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -55,18 +59,19 @@ export default function Dashboard({ filters }: DashboardProps) {
       <div className='w-full h-[calc(100vh-260px)] border border-zinc-500 rounded-xl flex flex-col'>
         <DashboardTitle />
         <div className='flex flex-col'>
-          {currentData.map((user, index) => (
+          {currentData.map((pedido, index) => (
             <DashboardMain
-              key={user.id}
-              id={user.id}
-              time={user.time}
-              status={user.status}
-              name={user.name}
-              price={user.price}
+              key={pedido.identificador} // Use identificador como chave
+              id={pedido.identificador}
+              time={formatDate(pedido.data_pedido)} // Usa a função de formatação de data
+              status={pedido.status}
+              name={pedido.nome_cliente}
+              price={pedido.valor.toString()}
               last={
                 index === currentData.length - 1 &&
                 (startIndex + index) % itemsPerPage === itemsPerPage - 1
               } // Ajusta a lógica para passar `last={true}` apenas para o último item da página
+              handlerRefrash={() => setRefresh(!refresh)}
             />
           ))}
         </div>

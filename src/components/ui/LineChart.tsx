@@ -1,28 +1,22 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
+  { month: "January", desktop: 60, mobile: 80 },
+  { month: "February", desktop: 102, mobile: 200 },
   { month: "March", desktop: 237, mobile: 120 },
   { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
+  { month: "May", desktop: 112, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
 ];
 
@@ -39,17 +33,19 @@ const chartConfig = {
 
 export function LineChartComponent() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Line Chart - Dots</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
-      </CardHeader>
+    <Card className='bg-transparent border-none'>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer
+          config={chartConfig}
+          style={{ height: "500px", width: "100%" }}
+        >
           <LineChart
+            width={400} // ajuste o valor conforme necessário
+            height={200} // diminua a altura em 100px (valor original - 100)
             accessibilityLayer
             data={chartData}
             margin={{
+              top: 20,
               left: 12,
               right: 12,
             }}
@@ -64,12 +60,12 @@ export function LineChartComponent() {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent indicator='line' />}
             />
             <Line
               dataKey='desktop'
               type='natural'
-              stroke='var(--color-desktop)'
+              stroke='#9956F6'
               strokeWidth={2}
               dot={{
                 fill: "var(--color-desktop)",
@@ -77,7 +73,14 @@ export function LineChartComponent() {
               activeDot={{
                 r: 6,
               }}
-            />
+            >
+              <LabelList
+                position='top'
+                offset={12}
+                className='text-white'
+                fontSize={12}
+              />
+            </Line>
           </LineChart>
         </ChartContainer>
       </CardContent>

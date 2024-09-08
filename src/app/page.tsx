@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 import Pizza from "@/components/icon/Pizza";
 import { Cube } from "@phosphor-icons/react/dist/ssr";
 import { verifyEmail } from "@/lib/VerifyEmail";
+import { ClienteInsertBD } from "@/database/clientesInsert";
 
 export default function Home() {
   const [Register, setRegister] = useState(false);
+  const [nome_estabelecimento, setnome_estabelecimento] = useState("");
   const [email, setEmail] = useState("");
   const [inputBorder, setInputBorder] = useState(false);
   const router = useRouter();
@@ -17,6 +19,23 @@ export default function Home() {
     } else {
       setInputBorder(true);
     }
+  };
+
+  const idAleatorio = () => {
+    const id = Math.floor(10000 + Math.random() * 90000);
+    return id;
+  };
+
+  const handlerNewClient = async () => {
+    const id = idAleatorio();
+    await ClienteInsertBD({
+      nome_estabelecimento: nome_estabelecimento,
+      receita_total: "0",
+      numero_pedidos: "0",
+      numero_cancelamentos: "0",
+      id: id,
+    });
+    setRegister(false);
   };
 
   return (
@@ -42,6 +61,8 @@ export default function Home() {
                   type='text'
                   placeholder='Nome do seu estabelecimento'
                   className='w-[400px] bg-zinc-200 p-2 rounded mt-1 placeholder:text-neutral-800'
+                  value={nome_estabelecimento}
+                  onChange={(e) => setnome_estabelecimento(e.target.value)}
                 />
               </div>
 
@@ -78,6 +99,7 @@ export default function Home() {
               <button
                 type='submit'
                 className='w-[400px] bg-red-600 p-3 rounded text-zinc-300 font-semibold text-sm'
+                onClick={handlerNewClient}
               >
                 Finalizar cadastro
               </button>

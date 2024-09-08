@@ -7,18 +7,21 @@ import {
   Moon,
   Sun,
 } from "@phosphor-icons/react/dist/ssr";
-import { UtensilsCrossed } from "lucide-react";
+import { CalendarPlus, UtensilsCrossed } from "lucide-react";
 
 import Pizza from "../components/icon/Pizza";
 
 interface NavBarProps {
-  handlerChosen: (page: "pedidos" | "inicio") => void;
+  handlerChosen: (page: "pedidos" | "inicio" | "adicionar") => void;
+  name: string;
 }
 
-export default function NavBar({ handlerChosen }: NavBarProps) {
-  const Establishment = "Diego's Pizza Shop";
+export default function NavBar({ handlerChosen, name }: NavBarProps) {
+  const Establishment = name;
   const [theme, setTheme] = useState<"light" | "dark">("dark");
-  const [page, setpage] = useState<"inicio" | "pedidos">("inicio");
+  const [page, setpage] = useState<"inicio" | "pedidos" | "adicionar">(
+    "inicio"
+  );
   const [EstablishmentModal, setEstablishmentModal] = useState(false);
 
   useEffect(() => {
@@ -45,6 +48,19 @@ export default function NavBar({ handlerChosen }: NavBarProps) {
             color={page === "inicio" ? "white" : "#A5A5A5"}
           />
           <span>Início</span>
+        </div>
+
+        <div
+          className={`pl-2 flex items-center space-x-2 ${
+            page === "adicionar" ? "text-white" : "text-white/70"
+          } font-semibold cursor-pointer`}
+          onClick={() => setpage("adicionar")}
+        >
+          <CalendarPlus
+            size={24}
+            color={page === "adicionar" ? "white" : "#A5A5A5"}
+          />
+          <span>Adicioanr</span>
         </div>
 
         <div
